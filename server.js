@@ -12,10 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/songsDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose.connect("mongodb+srv://user1:user1@cluster0.agtb3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 
 
 // Song Schema

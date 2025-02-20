@@ -17,9 +17,51 @@
   <pre id="results"></pre>
    
   <script>
-    // Students need to implement the JavaScript code here
-    // This includes fetching data from the REST API and handling the responses.
+    const resultsElement = document.getElementById('results');
+
+    // Function to display results
+    function displayResults(data) {
+        resultsElement.textContent = JSON.stringify(data, null, 2);
+    }
+
+    // Get all songs
+    document.getElementById('getAllSongs').addEventListener('click', async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/songs');
+            const data = await response.json();
+            displayResults(data);
+        } catch (error) {
+            displayResults({ error: 'Error fetching songs' });
+        }
+    });
+
+    // Get song by ID
+    document.getElementById('getSongById').addEventListener('click', async () => {
+        const songId = prompt('Enter song ID:');
+        if (!songId) return;
+        
+        try {
+            const response = await fetch(`http://localhost:3000/api/songs/${songId}`);
+            const data = await response.json();
+            displayResults(data);
+        } catch (error) {
+            displayResults({ error: 'Error fetching song' });
+        }
+    });
+
+    // Get songs by artist
+    document.getElementById('getSongsByArtist').addEventListener('click', async () => {
+        const artistName = prompt('Enter artist name:');
+        if (!artistName) return;
+        
+        try {
+            const response = await fetch(`http://localhost:3000/api/songs/artist/${encodeURIComponent(artistName)}`);
+            const data = await response.json();
+            displayResults(data);
+        } catch (error) {
+            displayResults({ error: 'Error fetching songs' });
+        }
+    });
   </script>
 </body>
 </html>
-​
