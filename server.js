@@ -57,3 +57,32 @@ app.get('/api/songs', async (req, res) => {
     }
 });
 
+// Get song by ID
+app.get('/api/songs/:id', async (req, res) => {
+    try {
+        const song = await Song.findOne({ songId: parseInt(req.params.id) });
+        if (!song) {
+            return res.status(404).json({ error: 'Song not found' });
+        }
+        res.json(song);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching song' });
+    }
+});
+
+// Get songs by artist
+app.get('/api/songs/artist/:name', async (req, res) => {
+    try {
+        const songs = await Song.find({ 'artistData.name': req.params.name });
+        if (songs.length === 0) {
+            return res.status(404).json({ error: 'No songs found for this artist' });
+        }
+        res.json(songs);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching songs' });
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
